@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/list_item_author_root_padding_bottom">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guide_line_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        />
+
+    <TextView
+        android:id="@+id/text_author_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guide_line_vertical"/>
+
+    <Button
+        android:id="@+id/button_website"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_website_height"
+        android:text="@string/list_item_author_button"
+        android:layout_marginLeft="@dimen/button_website_margin_left"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guide_line_vertical" />
+
+</android.support.constraint.ConstraintLayout>

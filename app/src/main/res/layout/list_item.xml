@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/constraint_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+    <android.support.constraint.Guideline
+        android:id="@+id/vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <ImageView
+        android:id="@+id/image_icon_news"
+        android:layout_width="@dimen/image_icon_news_width"
+        android:layout_height="@dimen/image_icon_news_height"
+        android:layout_marginTop="@dimen/image_icon_news_margin_top"
+        android:scaleType="fitXY"
+        android:src="@drawable/news"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_section"/>
+    
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_title_margin_left"
+        android:layout_marginRight="@dimen/text_title_margin_right"
+        app:layout_constraintTop_toBottomOf="@id/text_section"
+        app:layout_constraintStart_toEndOf="@id/image_icon_news"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline"/>
+
+    <TextView
+        android:id="@+id/text_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/text_date"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/text_section"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/image_icon_news"
+        app:layout_constraintEnd_toEndOf="@id/image_icon_news"/>
+
+    <TextView
+        android:id="@+id/text_authors"
+        android:text="@string/list_item_show_authors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_author_margin_top"
+        app:layout_constraintTop_toBottomOf="@id/text_title"
+        app:layout_constraintStart_toEndOf="@id/image_icon_news"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/image_icon_arrow"
+        android:src="@drawable/arrow_down"
+        android:layout_width="@dimen/image_icon_arrow_width"
+        android:layout_height="@dimen/image_icon_arrow_height"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@id/text_authors"
+        app:layout_constraintStart_toEndOf="@id/image_icon_news"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/linear_authors_list"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/linear_margin_left"
+        app:layout_constraintTop_toBottomOf="@id/image_icon_arrow"
+        app:layout_constraintStart_toEndOf="@id/image_icon_news"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

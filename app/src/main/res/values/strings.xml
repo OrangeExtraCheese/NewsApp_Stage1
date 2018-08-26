@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Guardian News</string>
+
+    <string name="main_activity_no_connection">No Internet connection :(</string>
+    <string name="main_activity_no_results">No results matching search criteria</string>
+
+    <string name="list_item_show_authors">show authors:</string>
+
+    <string name="list_item_author_button">website</string>
+
+    <string name="multi_autocomplete_hint">Enter one or more phrases to search. Precede section
+                                           names with "#</string>
+</resources>

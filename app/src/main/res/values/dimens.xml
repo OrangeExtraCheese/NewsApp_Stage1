@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- activity_main.xml -->
+    <dimen name="image_icon_search_size">35dp</dimen>
+    <dimen name="image_icon_search_margin_top">8dp</dimen>
+    <dimen name="recycler_margin_top">16dp</dimen>
+    <dimen name="recycler_margin_right">8dp</dimen>
+
+    <!-- list_item_author.xml -->
+    <dimen name="button_website_height">40dp</dimen>
+    <dimen name="button_website_margin_left">16dp</dimen>
+    <dimen name="list_item_author_root_padding_bottom">16dp</dimen>
+
+
+    <!-- list_item.xml -->
+    <dimen name="image_icon_news_width">100dp</dimen>
+    <dimen name="image_icon_news_height">75dp</dimen>
+    <dimen name="image_icon_news_margin_top">8dp</dimen>
+    <dimen name="text_title_margin_left">16dp</dimen>
+    <dimen name="text_title_margin_right">16dp</dimen>
+    <dimen name="text_author_margin_top">8dp</dimen>
+    <dimen name="image_icon_arrow_width">75dp</dimen>
+    <dimen name="image_icon_arrow_height">50dp</dimen>
+    <dimen name="linear_margin_left">16dp</dimen>
+</resources>
