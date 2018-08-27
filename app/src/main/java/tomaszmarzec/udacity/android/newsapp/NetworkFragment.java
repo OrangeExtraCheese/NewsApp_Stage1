@@ -4,9 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +18,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class NetworkFragment extends Fragment implements LoaderManager.LoaderCal
     private String mLastUrlString;
     private LoaderManager mLoaderManager;
     private static FetchNewsCallback mCallback;
-    private String mUrlApiKey = "&api-key=b30e70e6-cce9-426a-a4fa-cdfffc23ff84";
+    private String mUrlApiKey = "b30e70e6-cce9-426a-a4fa-cdfffc23ff84";
     /* mRequireFetch is true before any successful fetch of news. It indicates that there are no
     fetched news to be displayed to user */
     private boolean mRequireFetch = true;
@@ -43,12 +47,10 @@ public class NetworkFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
-        Log.v("UWAGA!", "Piotras ciągle rośnie!!");
-
         super.onCreate(savedInstanceState);
 
-        String defaultUrlString = "https://content.guardianapis.com/search?&show-tags=contributor";
-        mLastUrlString = defaultUrlString + mUrlApiKey;
+        mLastUrlString = prepareNoQueryUrl();
+
     }
 
     @Override
@@ -86,6 +88,7 @@ public class NetworkFragment extends Fragment implements LoaderManager.LoaderCal
     public Loader onCreateLoader(int id, @Nullable Bundle bundle)
     {
 
+
         if(id==1)
         {
             return new SectionsLoader(getActivity(), bundle.getString("url"));
@@ -95,6 +98,8 @@ public class NetworkFragment extends Fragment implements LoaderManager.LoaderCal
             return new NewsLoader(getActivity(), bundle.getString("url"));
         }
     }
+
+
 
     @Override
     public void onLoadFinished(@NonNull Loader<List> loader, List results)
@@ -169,7 +174,14 @@ public class NetworkFragment extends Fragment implements LoaderManager.LoaderCal
 
     public void handleSearchQuery(String queryString)
     {
-        fetchNews(prepareUrl(queryString));
+        if(queryString.equals(""))
+        {
+            fetchNews(prepareNoQueryUrl());
+        }
+        else
+        {
+            fetchNews(prepareUrl(queryString));
+        }
     }
 
     private void fetchNews(String url)
@@ -193,32 +205,47 @@ public class NetworkFragment extends Fragment implements LoaderManager.LoaderCal
             mCallback.onNoNetworkConnection();
     }
 
+    private String prepareNoQueryUrl()
+    {
+        String defaultUrlString = "https://content.guardianapis.com/search?&show-tags=contributor";
+        Uri.Builder uriBuilder = Uri.parse(defaultUrlString).buildUpon();
+        uriBuilder.appendQueryParameter("api-key", mUrlApiKey);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String maxNews = sharedPrefs.getString(getString(R.string.settings_max_news_key),
+                getString(R.string.settings_max_news_default));
+        uriBuilder.appendQueryParameter("page-size", maxNews);
+
+        return uriBuilder.toString();
+    }
+
     private String prepareUrl(String queryString)
     {
-        /*  Information about author is contained in tags object in JSON response, this filter
-            parameter is required for response to include tags object and contributor in it*/
-        String showTags = "&show-tags=contributor";
-        // This filter parameter orders received news by publication date
-        String sortByDate = "&order-by=newest";
-
+        String basicUrlString = "https://content.guardianapis.com/search?";
         Bundle bundle = extractSections(queryString);
-
         // This var contains words which user inserted to search, not being tags
         String queryWords = bundle.getString("noTags");
         // This var contains words which user inserted to search, being only tags
-        String queryTags = bundle.getString("tags");
-        //
-        queryTags.replaceAll(" ", "");
+        String querySections = bundle.getString("tags");
 
-        String basicUrlString = "https://content.guardianapis.com/search?";
-        String query = basicUrlString + "q=" + queryWords + showTags + sortByDate + mUrlApiKey;
+        Uri.Builder uriBuilder = Uri.parse(basicUrlString).buildUpon();
+        uriBuilder.appendQueryParameter("q", queryWords);
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("api-key", mUrlApiKey);
 
-        if(!TextUtils.isEmpty(queryTags))
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String maxNews = sharedPrefs.getString(getString(R.string.settings_max_news_key),
+                getString(R.string.settings_max_news_default));
+        String orderBy = sharedPrefs.getString(getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
+        uriBuilder.appendQueryParameter("page-size", maxNews);
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+
+        if(!TextUtils.isEmpty(querySections))
         {
-            query = query + "&section=" + queryTags;
+            uriBuilder.appendQueryParameter("section", querySections);
         }
 
-        return query;
+        return uriBuilder.toString();
     }
 
     //This method separates sections (represented as tags in UI) from rest of search query words
