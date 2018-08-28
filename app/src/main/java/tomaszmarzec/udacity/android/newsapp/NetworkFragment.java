@@ -213,7 +213,10 @@ public class NetworkFragment extends Fragment implements LoaderManager.LoaderCal
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         String maxNews = sharedPrefs.getString(getString(R.string.settings_max_news_key),
                 getString(R.string.settings_max_news_default));
+        String orderBy = sharedPrefs.getString(getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
         uriBuilder.appendQueryParameter("page-size", maxNews);
+        uriBuilder.appendQueryParameter("order-by", orderBy);
 
         return uriBuilder.toString();
     }
