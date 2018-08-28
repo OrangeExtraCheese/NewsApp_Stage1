@@ -23,6 +23,10 @@ import java.util.List;
 public class NewsQuery
 {
     private final static String LOG_TAG = NewsQuery.class.getName();
+    private final static int connectTimeout = 15000;
+    private final static int readTimeout = 10000;
+    private final static int goodResponseCode = 200;
+
 
     public static List<News> fetchNews(String urlString)
     {
@@ -61,12 +65,12 @@ public class NewsQuery
 
         try{
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setReadTimeout(10000);
+            urlConnection.setConnectTimeout(connectTimeout);
+            urlConnection.setReadTimeout(readTimeout);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            if(urlConnection.getResponseCode()==200)
+            if(urlConnection.getResponseCode()==goodResponseCode)
             {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
