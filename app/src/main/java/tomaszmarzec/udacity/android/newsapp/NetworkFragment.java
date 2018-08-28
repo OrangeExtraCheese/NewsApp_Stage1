@@ -31,7 +31,7 @@ public class NetworkFragment extends Fragment implements LoaderManager.LoaderCal
     private String mLastUrlString;
     private LoaderManager mLoaderManager;
     private static FetchNewsCallback mCallback;
-    private String mUrlApiKey = "b30e70e6-cce9-426a-a4fa-cdfffc23ff84";
+      private String mUrlApiKey = BuildConfig.ApiKey;
     /* mRequireFetch is true before any successful fetch of news. It indicates that there are no
     fetched news to be displayed to user */
     private boolean mRequireFetch = true;
